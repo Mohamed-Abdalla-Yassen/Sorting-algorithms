@@ -2,10 +2,8 @@ package com.assignment1.sorting_algo.controller;
 
 import com.assignment1.sorting_algo.DTO.RequestDTO;
 import com.assignment1.sorting_algo.DTO.Step;
-import com.assignment1.sorting_algo.service.InsertionSort;
-import com.assignment1.sorting_algo.service.SelectionSort;
+import com.assignment1.sorting_algo.service.*;
 import org.springframework.web.bind.annotation.*;
-import com.assignment1.sorting_algo.service.BubbleSort;
 
 import java.util.List;
 
@@ -16,12 +14,17 @@ public class Controller {
     private final BubbleSort bubble_service;
     private final SelectionSort selection_service;
     private final InsertionSort insertion_service;
-
+//    private final MergeSort merge_service;
+    private final QuickSort quick_service;
     // Constructor injection
-    public Controller(BubbleSort bubble_service,SelectionSort selection_service,InsertionSort insertion_service) {
+    public Controller(BubbleSort bubble_service,
+                      SelectionSort selection_service,
+                      InsertionSort insertion_service,
+                      QuickSort quick_service) {
         this.bubble_service = bubble_service;
         this.selection_service = selection_service;
         this.insertion_service = insertion_service;
+        this.quick_service = quick_service;
     }
 
     @PostMapping("/bubble_sort")
@@ -37,5 +40,10 @@ public class Controller {
     @PostMapping("/insertion_sort")
     public List<Step> insertion_sort(@RequestBody RequestDTO request) {
         return insertion_service.sort(request);
+    }
+
+    @PostMapping("/quick_sort")
+    public List<Step> quick_sort(@RequestBody RequestDTO request) {
+        return quick_service.sort(request);
     }
 }
