@@ -1,0 +1,80 @@
+:root {
+  --header-height: 80px;
+  --bg-dark: #0f172a;
+  --accent: #fbbf24;
+  --glass: rgba(255, 255, 255, 0.05);
+}
+
+.page-wrapper {
+  height: 100vh; /* Fixed screen height */
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-dark);
+  color: white;
+  overflow: hidden;
+}
+
+.control-panel {
+  height: var(--header-height);
+  background: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 100;
+}
+
+.visualizer-window {
+  flex: 1; /* Takes up remaining space */
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  position: relative;
+}
+
+.bars-container {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  padding-bottom: 40px;
+}
+
+.bar {
+  background: linear-gradient(to top, #3b82f6, #60a5fa);
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.2s ease, background-color 0.2s;
+  position: relative;
+}
+
+/* Highlighting Logic */
+.bar.comparing { background: #fbbf24; }
+.bar.swapping { background: #ef4444; }
+
+.action-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 10px;
+  transition: transform 0.1s;
+}
+
+.action-btn.run { background-color: #10b981; color: white; }
+.action-btn.step { background-color: #6366f1; color: white; }
+
+.stats-footer {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  gap: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #94a3b8;
+}
