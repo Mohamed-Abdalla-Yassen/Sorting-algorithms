@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { SortService } from '../../service/sort.service';
 import { CommonModule } from '@angular/common'; // Add this
+import { requestBody } from '../../service/sort.service'; // Import the interface
 
 @Component({
   selector: 'app-bubble-sort',
@@ -14,7 +15,7 @@ export class BubbleSort {
   private sortService = inject(SortService);
   private cdr = inject(ChangeDetectorRef);
 
-  arraySize = 10;
+
   speed = 100; // melli seconds
   currentArray: number[] = [];
   maxVal = 400; // Matches your Java random generator max
@@ -23,13 +24,17 @@ export class BubbleSort {
   totalComparisons = 0;
   totalInterchanges = 0;
   isSwapping = false;
+  request: requestBody = {
+    size: 10,
+    order: 3
+  };
 
   // store the steps returned from backend 
   steps: any[] = [];
   currentStepIndex = 0;
   
   initalize() {
-    this.sortService.getSortSteps(this.arraySize).subscribe((data) => {
+    this.sortService.getSortSteps_bubble(this.request).subscribe((data) => {
       this.steps = data;
       console.log(this.steps);
       

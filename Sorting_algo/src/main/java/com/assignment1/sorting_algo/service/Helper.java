@@ -20,11 +20,11 @@ public class Helper {
             for (int i = 0; i < size; i++) {
                 array.add((int)(Math.random() * 400));
             }
-        } else if (order == 2) {
+        } else if (order == 2) { // rev
             for (int i = 0; i < size; i++) {
                 array.add(size - i);
             }
-        } else if (order == 1) {
+        } else if (order == 1) { // sorted
             for (int i = 0; i < size; i++) {
                 array.add(i+1);
             }

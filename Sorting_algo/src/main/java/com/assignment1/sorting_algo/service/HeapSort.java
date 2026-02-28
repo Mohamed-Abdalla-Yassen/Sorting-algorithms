@@ -14,11 +14,12 @@ public class HeapSort {
     private static int comparisons;
     private static int swaps;
     private Helper help = new Helper();
-    private static List<Step> steps = new ArrayList<>();
+    private static List<Step> steps;
 
     public List<Step> sort(RequestDTO request) {
         List<Integer> array = help.generator(request);
 
+        steps = new ArrayList<>();
         stepNum = 0;
         comparisons = 0;
         swaps = 0;
