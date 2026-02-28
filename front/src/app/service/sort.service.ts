@@ -8,7 +8,7 @@ import { Observable } from "rxjs";
 export class SortService {
     // Note: If your Controller is @RequestMapping("/api"), this is correct.
     // If not, use 'http://localhost:8080'
-    private baseUrl = 'http://localhost:8080/sort'; 
+    private baseUrl = 'http://localhost:8080'; 
 
     constructor(private http: HttpClient) {}
 
@@ -21,6 +21,6 @@ export class SortService {
         
         // Your Java Controller @RequestBody int size expects just the number
         // or a JSON object depending on how you finalized the backend.
-        return this.http.post<any[]>(this.baseUrl, arraySize, { headers });
+        return this.http.post<any[]>(this.baseUrl + '/bubble_sort', arraySize, { headers });
     }
 }

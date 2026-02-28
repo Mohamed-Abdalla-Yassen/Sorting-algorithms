@@ -7,9 +7,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-// in-place algo
 @Service
-public class BubbleSort {
+public class InsertionSort {
     public List<Step> sort(RequestDTO request) { // Return the list of steps
         Helper help = new Helper();
         List<Integer> array = help.generator(request);
@@ -21,41 +20,35 @@ public class BubbleSort {
 
         int n = array.size();
 
-        for (int i = 0; i < n - 1; i++) {
-            boolean swapped = false;
-            for (int j = 0; j < n - i - 1; j++) {
+        for (int i = 1; i < n ; i++) {
+            for (int j = i; j > 0 ; j--) {
                 comparisons++;
-
                 steps.add(Step.builder()
                         .operation("comparison")
                         .step_num(++stepNum)
                         .array(new ArrayList<>(array))
                         .ptr1(j)
-                        .ptr2(j + 1)
+                        .ptr2(j - 1)
                         .totalComparisons(comparisons)
                         .totalInterchanges(interchanges)
                         .build());
-
-                if (array.get(j) > array.get(j + 1)) {
+                if (array.get(j) < array.get(j - 1)) {
                     interchanges++;
-                    help.swap(array, j, j + 1);
-                    swapped = true;
-
+                    help.swap(array,j,j-1);
                     steps.add(Step.builder()
                             .operation("swap")
                             .step_num(++stepNum)
                             .array(new ArrayList<>(array))
                             .ptr1(j)
-                            .ptr2(j + 1)
+                            .ptr2(j - 1)
                             .totalComparisons(comparisons)
                             .totalInterchanges(interchanges)
                             .build());
                 }
+                else break;
             }
-            if (!swapped) break;
         }
+
         return steps;
     }
-
-
 }
