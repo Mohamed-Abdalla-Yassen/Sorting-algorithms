@@ -1,0 +1,51 @@
+<div class="page-wrapper">
+  <header class="control-panel">
+    <div class="left-section">
+      <button routerLink="/" class="nav-btn">← Back to Menu</button>
+      <h2 class="algo-title">Bubble Sort</h2>
+    </div>
+
+    <div class="center-section">
+      <div class="input-group">
+        <label>Size:</label>
+        <input type="number" [(ngModel)]="arraySize" min="5" max="100">
+      </div>
+      <!-- convert to type of order of generated array -->
+      <div class="input-group">
+        <label>Speed (ms):</label>
+        <input type="range" [(ngModel)]="speed" min="10" max="1000">
+      </div>
+    </div>
+
+    <div class="right-section">
+      <button (click)="initalize()" class="action-btn run">initalize</button>
+      <button (click)="start()" class="action-btn start">Start</button>
+      <button (click)="autoRun()" class="action-btn auto-run">Auto Run</button>
+      <!-- <button class="action-btn step">Step Mode</button> -->
+
+      <button class="action-btn next-step" (click)="nextStep()">Next Step</button>
+      <button class="action-btn prev-step" (click)="prevStep()">Previous Step</button>
+
+      <button  class="action-btn reset">Reset</button>
+    </div>
+  </header>
+
+  <main class="visualizer-window">
+    <div class="bars-container">
+      @for (value of currentArray; track $index) {
+        <div 
+          class="bar" 
+          [style.height.%]="(value / maxVal) * 100"
+          [class.comparing]="$index === ptr1 || $index === ptr2"
+          [class.swapping]="isSwapping && ($index === ptr1 || $index === ptr2)">
+          <span class="bar-value" >{{ value }}</span>
+        </div>
+      }
+    </div>
+    
+    <div class="stats-footer">
+      <span>Comparisons: {{ totalComparisons }}</span>
+      <span>Interchanges: {{ totalInterchanges }}</span>
+    </div>
+  </main>
+</div>
