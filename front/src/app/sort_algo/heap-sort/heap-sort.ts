@@ -4,10 +4,11 @@ import { RouterLink } from '@angular/router';
 import { SortService } from '../../service/sort.service';
 import { CommonModule } from '@angular/common'; // Add this
 import { requestBody } from '../../service/sort.service'; // Import the interface
+import { signal } from '@angular/core';
 
 @Component({
   selector: 'app-heap-sort',
-  imports: [FormsModule, RouterLink, CommonModule], 
+  imports: [FormsModule, RouterLink, CommonModule],   
   templateUrl: './heap-sort.html',
   styleUrl: '../bubble-sort/bubble-sort.css',
 })
@@ -17,86 +18,73 @@ export class HeapSort {
 
 
   speed = 100; // melli seconds
-  currentArray: number[] = [];
+  currentArray = signal<number[]>([]);
   maxVal = 400; // Matches your Java random generator max
-  ptr1 = -1;
-  ptr2 = -1;
+  currentStepIndex = signal(-1);
+  ptr1 = signal(-1);
+  ptr2 = signal(-1);
+  isSwapping = signal(false); 
   totalComparisons = 0;
   totalInterchanges = 0;
-  isSwapping = false;
   request: requestBody = {
     size: 10,
     order: 3
   };
 
   // store the steps returned from backend 
-  steps: any[] = [];
-  currentStepIndex = 0;
+  steps = signal<any[]>([]);
   
   initalize() {
-    // console.log(this.request);
     this.sortService.getSortSteps_heap(this.request).subscribe((data) => {
-      this.steps = data;
-      console.log(this.steps);
+      this.steps.set(data);
+      console.log(this.steps());
       
-      this.currentStepIndex = 0;
-      this.ptr1 = -1;
-      this.ptr2 = -1;
+      this.currentStepIndex.set(-1);
+      this.ptr1.set(-1);
+      this.ptr2.set(-1);
       this.totalComparisons = 0;
       this.totalInterchanges = 0;
-      this.isSwapping = false;
-      this.currentArray = [...this.steps[0].array];
-      console.log(this.currentArray);
+      this.isSwapping.set(false);
+      this.currentArray.set([...this.steps()[0].array]);
+      console.log(this.currentArray());
       this.maxVal = 400;
       
+      this.stopAutoRun(); 
     });
 }
   nextStep() {
-  if (this.currentStepIndex < this.steps.length) {
-    const step = this.steps[this.currentStepIndex];
+  if (this.currentStepIndex() < this.steps().length - 1) {
     
+    this.currentStepIndex.set(this.currentStepIndex() + 1);
+    const step = this.steps()[this.currentStepIndex()];
     // FORCE A NEW REFERENCE HERE
-    this.currentArray = [...step.array]; 
+    this.currentArray.set([...step.array]); 
     
-    this.ptr1 = step.ptr1;
-    this.ptr2 = step.ptr2;
+    this.ptr1.set(step.ptr1);
+    this.ptr2.set(step.ptr2);
     this.totalComparisons = step.totalComparisons;
     this.totalInterchanges = step.totalInterchanges;
-    this.isSwapping = step.operation === 'swap';
-    this.currentStepIndex++;
+    this.isSwapping.set(step.operation === 'swap');
     console.log(step);
   }
 }
   prevStep() {
-    if (this.currentStepIndex > 0) {
-      this.currentStepIndex--;
-      const step = this.steps[this.currentStepIndex];
-      this.currentArray = step.array;
-      this.ptr1 = step.ptr1;
-      this.ptr2 = step.ptr2;
+    if (this.currentStepIndex() > 0) {
+      this.currentStepIndex.set(this.currentStepIndex() - 1);
+      const step = this.steps()[this.currentStepIndex()];
+      this.currentArray.set([...step.array]);
+      this.ptr1.set(step.ptr1);
+      this.ptr2.set(step.ptr2);
       this.totalComparisons = step.totalComparisons;
       this.totalInterchanges = step.totalInterchanges;
-      this.isSwapping = step.operation === 'swap';
+      this.isSwapping.set(step.operation === 'swap');
     }
   }
-  start() {
-    this.currentArray = [...this.steps[0].array];
-    this.ptr1 = -1;
-    this.ptr2 = -1;
-    this.totalComparisons = 0;
-    this.totalInterchanges = 0;
-    this.isSwapping = false;
-    this.currentStepIndex = 0;
-  }
 
-  delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
+  stop_running = false; // A flag to control the loop
   async autoRun() {
-
-  // 2. The loop now "awaits" the delay
-    while (this.currentStepIndex < this.steps.length) {
+    this.stop_running = true; // Reset the flag at the start
+    while (this.currentStepIndex() < this.steps().length && this.stop_running) {
       this.nextStep();
       
       this.cdr.detectChanges();
@@ -104,5 +92,8 @@ export class HeapSort {
       // This line tells the loop to pause for 'speed' ms
       await new Promise(resolve => setTimeout(resolve, this.speed));
     }
+  }
+  stopAutoRun() {
+    this.stop_running = false; // Set the flag to false to stop the loop
   }
 }

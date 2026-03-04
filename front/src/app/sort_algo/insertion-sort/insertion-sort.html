@@ -26,8 +26,9 @@
 
     <div class="right-section">
       <button (click)="initalize()" class="action-btn run">initalize</button>
-      <button (click)="start()" class="action-btn start">Start</button>
+      <!-- <button (click)="start()" class="action-btn start">Start</button> -->
       <button (click)="autoRun()" class="action-btn auto-run">Auto Run</button>
+      <button (click)="stopAutoRun()" class="action-btn stop">Stop</button>
       <!-- <button class="action-btn step">Step Mode</button> -->
 
       <button class="action-btn next-step" (click)="nextStep()">Next Step</button>
@@ -39,12 +40,12 @@
 
   <main class="visualizer-window">
     <div class="bars-container">
-      @for (value of currentArray; track $index) {
+      @for (value of currentArray(); track $index) {
         <div 
           class="bar" 
           [style.height.%]="(value / maxVal) * 100"
-          [class.comparing]="$index === ptr1 || $index === ptr2"
-          [class.swapping]="isSwapping && ($index === ptr1 || $index === ptr2)">
+          [class.comparing]="$index === ptr1() || $index === ptr2()"
+          [class.swapping]="isSwapping() && ($index === ptr1() || $index === ptr2())">
           <span class="bar-value" >{{ value }}</span>
         </div>
       }
