@@ -57,10 +57,12 @@ The backend serves as the API for sorting algorithms and data generation.
    ```bash
    cd path/to/your/backend-folder
 2. Run the Spring Boot application using the Maven wrapper (no local Maven installation required):
-### On Windows
-    mvnw.cmd spring-boot:run
-### On Mac/Linux:
-    ./mvnw spring-boot:run
+- On Windows:
+   ```DOS
+   gradlew.bat bootRun
+- On Mac/Linux:
+   ```Bash
+    ./gradlew bootRun
 3. The backend server will start, typically running on http://localhost:8080. Leave this terminal window open.
 
 ### Step 2: Start the Angular Frontend
@@ -75,5 +77,5 @@ The frontend contains the GUI for the Sorting Comparison and Visualization modes
    npm install
 3. Once the installation is complete, start the Angular development server:
    ```Bash
-   npm install
+   ng serve
 4. Open your web browser and navigate to http://localhost:4200/ to access the application's Graphical User Interface.
