@@ -22,7 +22,7 @@ div.header {
     /* justify-content: center; */
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden;
+    overflow: auto;
 } 
 
 @keyframes gradientBG {
@@ -149,7 +149,7 @@ table {
 	overflow: hidden;
 	box-shadow: 0 0 20px rgba(0,0,0,0.1);
     text-align: center;
-    margin-top: 100px;
+    margin: 20px 0 100px;
 }
 
 th,

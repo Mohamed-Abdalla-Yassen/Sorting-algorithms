@@ -24,8 +24,9 @@ public class RunAllMethods {
             System.out.println("length: "+array.size());
 
         } else {
-            Helper help = new Helper();
-            array = help.generator(r);
+//            Helper help = new Helper();
+            array = generator2(r);
+//            System.out.println(array);
         }
         
         String mode = r.getOrder() == 1 ? "Sorted" : 
@@ -109,5 +110,24 @@ public class RunAllMethods {
                 .build());
 
         return bench;
+    }
+    private List<Integer> generator2(RequestDTO request) {
+        int size = request.getSize();
+        int order = request.getOrder();
+        List<Integer> array = new ArrayList<Integer>();
+        if(order == 3) { // unsorted
+            for (int i = 0; i < size; i++) {
+                array.add((int)(Math.random() * 10000));
+            }
+        } else if (order == 2) { // rev
+            for (int i = 0; i < size; i++) {
+                array.add(size - i);
+            }
+        } else if (order == 1) { // sorted
+            for (int i = 0; i < size; i++) {
+                array.add(i+1);
+            }
+        }
+        return array;
     }
 }
