@@ -84,14 +84,18 @@ export class HeapSort {
   stop_running = false; // A flag to control the loop
   async autoRun() {
     this.stop_running = true; // Reset the flag at the start
-    while (this.currentStepIndex() < this.steps().length && this.stop_running) {
+    while (this.currentStepIndex() + 1 < this.steps().length && this.stop_running) {
       this.nextStep();
       
       this.cdr.detectChanges();
 
       // This line tells the loop to pause for 'speed' ms
       await new Promise(resolve => setTimeout(resolve, this.speed));
+
+      // console.log("Auto-running step:", this.currentStepIndex() , this.steps().length);
     }
+    console.log("Auto-run stopped or completed.");
+    this.stopAutoRun();
   }
   stopAutoRun() {
     this.stop_running = false; // Set the flag to false to stop the loop

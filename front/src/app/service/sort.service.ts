@@ -48,4 +48,5 @@ export interface requestBody {
     size: number;
     order: number;
     runs?: number ; // number of runs for benchmarking
+    array?: number[]; // optional array for file input
 }
