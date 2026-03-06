@@ -1,9 +1,10 @@
 # 📊 Sorting Algorithms Visualizer & Benchmarking Tool
-
+[![Java Spring Boot](https://img.shields.io/badge/Backend-Spring%20Boot-brightgreen)](https://spring.io/projects/spring-boot)
+[![Angular](https://img.shields.io/badge/Frontend-Angular%20v20-red)](https://angular.io/)
 ## 📝 Description
-An interactive, full-stack web application designed to bring data structures to life. Built as part of **CSE224 Data Structures 2**, this tool serves a dual purpose: it allows users to watch step-by-step animations of how arrays are sorted, and it provides a high-precision benchmarking engine to empirically compare the time complexities of different algorithms.
+An interactive, full-stack web app designed to bring sorting algorithms to life! It serves two main purposes: showing step-by-step animations of how arrays are sorted, and providing a benchmarking tool to compare the speed of different algorithms.
 
-The project utilizes a decoupled architecture, pairing a fast **Spring Boot** backend with a highly reactive **Angular** frontend to ensure the visualization animations are smooth and the benchmarking data is scientifically accurate.
+Built with a fast **Spring Boot** backend and a responsive **Angular** frontend, the app ensures smooth visual animations and highly accurate performance tracking.
 
 ## ✨ Features
 
