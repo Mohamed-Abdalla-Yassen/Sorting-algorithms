@@ -8,4 +8,5 @@ public class RequestDTO {
     private int order; // 1 --> sorted
                        // 2 --> rev-sorted
                        // 3 --> random
+    private int runs;
 }
