@@ -40,7 +40,7 @@ https://colab.research.google.com/drive/1x8vFNpLd38E7T64pqw7jvX2r4qmbnYOG?usp=sh
 
 ---
 
-## 🏃 1. How to Run the Application
+## 🏃 How to Run the Application
 This project is built using a decoupled architecture with a Spring Boot backend (handling the sorting logic, comparisons, and file generation) and an Angular frontend (handling the graphical user interface and sorting visualization).
 
 To run this application locally, you will need to start both the backend server and the frontend development server.
