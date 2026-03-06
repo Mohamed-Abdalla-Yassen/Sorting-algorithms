@@ -11,9 +11,8 @@ export class SortService {
 
     constructor(private http: HttpClient) {}
 
-    /**
-     * We return an Observable so the Component can subscribe and handle the data.
-     */
+    /* return an Observable so the Component can subscribe and handle the data */
+    
     getSortSteps_bubble(request: requestBody): Observable<any[]> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<any[]>(this.baseUrl + '/bubble_sort', request, { headers });
@@ -38,8 +37,15 @@ export class SortService {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<any[]>(this.baseUrl + '/merge_sort', request, { headers });
     }
+
+    //! Benchmarking endpoint
+    getBenchmarkData(request: requestBody): Observable<any[]> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any[]>(this.baseUrl + '/comparison/benchMark', request, { headers });
+    }
 }
 export interface requestBody {
     size: number;
     order: number;
+    runs?: number ; // number of runs for benchmarking
 }

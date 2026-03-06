@@ -11,7 +11,7 @@
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
-} 
+}
 
 @keyframes gradientBG {
     0% { background-position: 0% 50%; }
@@ -19,14 +19,13 @@
     100% { background-position: 0% 50%; }
 }
 
-/* Typewriter Effect */
 .typewriter {
     font-size: 3rem;
     overflow: hidden; /* Ensures the content is not revealed until the animation */
     border-right: .15em solid orange; /* The typwriter cursor */
     white-space: nowrap; /* Keeps the content on a single line */
     margin: 0 auto; 
-    letter-spacing: .15em; 
+    letter-spacing: .10em; 
     animation: 
       typing 3.5s steps(30, end),
       blink-caret .5s step-end infinite;
@@ -55,12 +54,11 @@ h3 {
     to { opacity: 1; }
 }
 
-/* Glassmorphism Buttons */
 .glass-nav {
     margin-top: 50px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
 }
 
 .algo-btn {

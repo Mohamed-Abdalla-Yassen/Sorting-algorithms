@@ -6,9 +6,13 @@ import { MergeSort } from './sort_algo/merge-sort/merge-sort';
 import { QuickSort } from './sort_algo/quick-sort/quick-sort'; 
 import { HeapSort } from './sort_algo/heap-sort/heap-sort';
 import { HomeComponent } from './home-component/home-component';
+import { Entry } from './entry/entry';
+import { Comparator } from './comparator/comparator';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: Entry },
+  { path: 'Visualizer', component: HomeComponent },
+  { path: 'Comparator', component: Comparator },
   { path: 'bubble-sort', component: BubbleSort },
   { path: 'selection-sort', component: SelectionSort },
   { path: 'insertion-sort', component: InsertionSort },
