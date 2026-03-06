@@ -2,6 +2,8 @@ package com.assignment1.sorting_algo.DTO;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class RequestDTO {
     private int size;
@@ -10,4 +12,5 @@ public class RequestDTO {
                        // 3 --> random
                        // 4 --> file
     private int runs;
+    private List<Integer> array;
 }

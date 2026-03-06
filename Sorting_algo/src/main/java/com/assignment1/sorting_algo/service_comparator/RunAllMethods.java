@@ -16,16 +16,29 @@ public class RunAllMethods {
         List<BenchMarkDTO> bench = new ArrayList<>();
         DataOfMethod temp = new DataOfMethod();
 
-        Helper help = new Helper();
-        List<Integer> array = help.generator(r);
+        List<Integer> array = new ArrayList<>();
+        if (r.getOrder() == 4) {
+            array = r.getArray();
+            r.setSize(array.size());
+            System.out.println("array: "+array.toString());
+            System.out.println("length: "+array.size());
 
+        } else {
+//            Helper help = new Helper();
+            array = generator2(r);
+//            System.out.println(array);
+        }
+        
+        String mode = r.getOrder() == 1 ? "Sorted" : 
+                        r.getOrder() == 2 ? "Rev-Sorted" :
+                        r.getOrder() == 3 ? "Random" : "File";
         // store benchmark data of bubble
         Bubble b = new Bubble();
         temp = b.multipleRuns(r.getRuns(),array);
 
         bench.add(BenchMarkDTO.builder()
                         .algo_name("Bubble Sort")
-                        .generation_mode("test")
+                        .generation_mode(mode)
                         .size(r.getSize())
                         .runs(r.getRuns())
                         .data(temp)
@@ -38,7 +51,7 @@ public class RunAllMethods {
 
         bench.add(BenchMarkDTO.builder()
                 .algo_name("Insertion Sort")
-                .generation_mode("test")
+                .generation_mode(mode)
                 .size(r.getSize())
                 .runs(r.getRuns())
                 .data(temp)
@@ -51,7 +64,7 @@ public class RunAllMethods {
 
         bench.add(BenchMarkDTO.builder()
                 .algo_name("Selection Sort")
-                .generation_mode("test")
+                .generation_mode(mode)
                 .size(r.getSize())
                 .runs(r.getRuns())
                 .data(temp)
@@ -64,7 +77,7 @@ public class RunAllMethods {
 
         bench.add(BenchMarkDTO.builder()
                 .algo_name("Merge Sort")
-                .generation_mode("test")
+                .generation_mode(mode)
                 .size(r.getSize())
                 .runs(r.getRuns())
                 .data(temp)
@@ -77,7 +90,7 @@ public class RunAllMethods {
 
         bench.add(BenchMarkDTO.builder()
                 .algo_name("Quick Sort")
-                .generation_mode("test")
+                .generation_mode(mode)
                 .size(r.getSize())
                 .runs(r.getRuns())
                 .data(temp)
@@ -90,12 +103,31 @@ public class RunAllMethods {
 
         bench.add(BenchMarkDTO.builder()
                 .algo_name("Heap Sort")
-                .generation_mode("test")
+                .generation_mode(mode)
                 .size(r.getSize())
                 .runs(r.getRuns())
                 .data(temp)
                 .build());
 
         return bench;
+    }
+    private List<Integer> generator2(RequestDTO request) {
+        int size = request.getSize();
+        int order = request.getOrder();
+        List<Integer> array = new ArrayList<Integer>();
+        if(order == 3) { // unsorted
+            for (int i = 0; i < size; i++) {
+                array.add((int)(Math.random() * 10000));
+            }
+        } else if (order == 2) { // rev
+            for (int i = 0; i < size; i++) {
+                array.add(size - i);
+            }
+        } else if (order == 1) { // sorted
+            for (int i = 0; i < size; i++) {
+                array.add(i+1);
+            }
+        }
+        return array;
     }
 }

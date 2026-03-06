@@ -16,9 +16,10 @@ export class Comparator {
  
 
   request: requestBody = {
-    size: 100,
+    size: 100 ,
     runs: 100,
-    order: 3 // 1: sorted, 2: reverse sorted, 3: random, 4: file input
+    order: 4, // 1: sorted, 2: reverse sorted, 3: random, 4: file input
+    array: [] // Initialize the array for file input
   };
 
   Data = signal<any[]>([]);
@@ -31,8 +32,6 @@ export class Comparator {
       
     });
   }
-
-  fileContent: string = '';
 
   onFileSelected(event: Event): void {
     // get the input element and the selected file
@@ -47,9 +46,13 @@ export class Comparator {
         const reader = new FileReader();
 
         // define what happens when the reader finishes reading
-        reader.onload = (e: any) => {
-          this.fileContent = e.target.result;
-          console.log("file content:", this.fileContent);
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const fileContent = e.target?.result as string;
+          
+          if (fileContent) {
+            // convert the string content into an array of numbers
+            this.processFileContent(fileContent);
+          }
         };
 
         // define what happens on error
@@ -64,6 +67,17 @@ export class Comparator {
         alert("Please select a valid .txt file.");
       }
     }
+  }
+
+  private processFileContent(content: string): void {
+    this.request.array = content
+      .split(',')                     // Break the string into an array at every comma
+      .map(item => item.trim())       // Remove any accidental spaces (e.g., " 5 " becomes "5")
+      .filter(item => item !== '')    // Remove empty strings (in case the file ends with a comma)
+      .map(item => Number(item))      // Convert the cleaned strings into Numbers
+      .filter(item => !isNaN(item));  // Discard anything that couldn't be converted to a valid number
+
+    console.log('Successfully converted to array:', this.request.array);
   }
 
 }

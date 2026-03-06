@@ -1,32 +1,34 @@
 <div class="container">
-    <h1 class="title">Benchmark</h1>
-    <p class="description">Compare the performance of different sorting algorithms side by side.</p>
+    <div class="header">
+        <h1 class="title">Benchmark</h1>
+        <p class="description">Compare the performance of different sorting algorithms side by side.</p>
 
-    <div class="input">
-        <label for="arraySize">Array Size:</label>
-        <input type="number" id="arraySize" [(ngModel)]="request.size" min="5" max="1000" step="10">
+        <div class="input">
+            @if (request.order != 4) {
+                <label for="arraySize">Array Size:</label>
+                <input type="number" id="arraySize" [(ngModel)]="request.size" min="5" max="1000" step="10">
+            }
+            <label for="numOfRuns">Number of Runs:</label>
+            <input type="number" id="numOfRuns" [(ngModel)]="request.runs" min="1" max="10000" step="1">
 
-        <label for="numOfRuns">Number of Runs:</label>
-        <input type="number" id="numOfRuns" [(ngModel)]="request.runs" min="1" max="10000" step="1">
+            <label for="inputType">Input Type:</label>
+            <select id="inputType" [(ngModel)]="request.order">
+                <option value="3">Random</option>
+                <option value="1">Sorted</option>
+                <option value="2">Reverse Sorted</option>
+                <option value="4">FromFile</option>
+            </select>
 
-        <label for="inputType">Input Type:</label>
-        <select id="inputType" [(ngModel)]="request.order">
-            <option value="3">Random</option>
-            <option value="1">Sorted</option>
-            <option value="2">Reverse Sorted</option>
-            <option value="4">FromFile</option>
-        </select>
-
-        @if (request.order === 4) {
-            <label for="txtUpload">Upload a Text File: </label>
-            <input 
-                type="file" 
-                id="txtUpload" 
-                accept=".txt" 
-                (change)="onFileSelected($event)" 
-            />
-        }
-        
+            @if (request.order == 4) {
+                <label for="txtUpload">Upload a Text File: </label>
+                <input 
+                    type="file" 
+                    id="txtUpload" 
+                    accept=".txt" 
+                    (change)="onFileSelected($event)" 
+                />
+            }
+        </div>
         <button (click)="runBenchmark()">Run Benchmarks</button>
     </div>
     <table>
