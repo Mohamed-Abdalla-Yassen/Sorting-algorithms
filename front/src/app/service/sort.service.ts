@@ -6,21 +6,46 @@ import { Observable } from "rxjs";
     providedIn: 'root'
 })
 export class SortService {
-    // Note: If your Controller is @RequestMapping("/api"), this is correct.
-    // If not, use 'http://localhost:8080'
+    
     private baseUrl = 'http://localhost:8080'; 
 
     constructor(private http: HttpClient) {}
 
-    /**
-     * Fetches sorting steps from the Spring Boot backend.
-     * We return an Observable so the Component can subscribe and handle the data.
-     */
-    getSortSteps(arraySize: number): Observable<any[]> {
+    /* return an Observable so the Component can subscribe and handle the data */
+    
+    getSortSteps_bubble(request: requestBody): Observable<any[]> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        
-        // Your Java Controller @RequestBody int size expects just the number
-        // or a JSON object depending on how you finalized the backend.
-        return this.http.post<any[]>(this.baseUrl + '/bubble_sort', arraySize, { headers });
+        return this.http.post<any[]>(this.baseUrl + '/bubble_sort', request, { headers });
     }
+    getSortSteps_selection(request: requestBody): Observable<any[]> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any[]>(this.baseUrl + '/selection_sort', request, { headers });
+    }
+    getSortSteps_insertion(request: requestBody): Observable<any[]> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any[]>(this.baseUrl + '/insertion_sort', request, { headers });
+    }
+    getSortSteps_quick(request: requestBody): Observable<any[]> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any[]>(this.baseUrl + '/quick_sort', request, { headers });
+    }
+    getSortSteps_heap(request: requestBody): Observable<any[]> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any[]>(this.baseUrl + '/heap_sort', request, { headers });
+    }
+    getSortSteps_merge(request: requestBody): Observable<any[]> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any[]>(this.baseUrl + '/merge_sort', request, { headers });
+    }
+
+    //! Benchmarking endpoint
+    getBenchmarkData(request: requestBody): Observable<any[]> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any[]>(this.baseUrl + '/comparison/benchMark', request, { headers });
+    }
+}
+export interface requestBody {
+    size: number;
+    order: number;
+    runs?: number ; // number of runs for benchmarking
 }

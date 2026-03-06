@@ -13,11 +13,11 @@ public class QuickSort {
     private static int comparisons = 0;
     private static int swaps = 0;
     private Helper help = new Helper();
-    private static List<Step> steps = new ArrayList<>();
+    private static List<Step> steps;
 
     public List<Step> sort(RequestDTO request) { // Return the list of steps
         List<Integer> array = help.generator(request);
-
+        steps = new ArrayList<>();
         stepNum = 0;
         comparisons = 0;
         swaps = 0;

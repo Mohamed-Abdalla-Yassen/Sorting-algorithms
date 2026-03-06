@@ -1,11 +1,99 @@
-import { Component } from '@angular/core';
+import { Component, inject , ChangeDetectorRef } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { SortService } from '../../service/sort.service';
+import { CommonModule } from '@angular/common'; // Add this
+import { requestBody } from '../../service/sort.service'; // Import the interface
+import { signal } from '@angular/core';
 
 @Component({
   selector: 'app-selection-sort',
-  imports: [],
+  imports: [FormsModule, RouterLink, CommonModule],   
   templateUrl: './selection-sort.html',
-  styleUrl: './selection-sort.css',
+  styleUrl: '../bubble-sort/bubble-sort.css',
 })
 export class SelectionSort {
+  private sortService = inject(SortService);
+  private cdr = inject(ChangeDetectorRef);
 
+
+  speed = 100; // melli seconds
+  currentArray = signal<number[]>([]);
+  maxVal = 400; // Matches your Java random generator max
+  currentStepIndex = signal(-1);
+  ptr1 = signal(-1);
+  ptr2 = signal(-1);
+  isSwapping = signal(false); 
+  totalComparisons = 0;
+  totalInterchanges = 0;
+  request: requestBody = {
+    size: 10,
+    order: 3
+  };
+
+  // store the steps returned from backend 
+  steps = signal<any[]>([]);
+  
+  initalize() {
+    this.sortService.getSortSteps_selection(this.request).subscribe((data) => {
+      this.steps.set(data);
+      console.log(this.steps());
+      
+      this.currentStepIndex.set(-1);
+      this.ptr1.set(-1);
+      this.ptr2.set(-1);
+      this.totalComparisons = 0;
+      this.totalInterchanges = 0;
+      this.isSwapping.set(false);
+      this.currentArray.set([...this.steps()[0].array]);
+      console.log(this.currentArray());
+      this.maxVal = 400;
+      
+      this.stopAutoRun(); 
+    });
+}
+  nextStep() {
+  if (this.currentStepIndex() < this.steps().length - 1) {
+    
+    this.currentStepIndex.set(this.currentStepIndex() + 1);
+    const step = this.steps()[this.currentStepIndex()];
+    // FORCE A NEW REFERENCE HERE
+    this.currentArray.set([...step.array]); 
+    
+    this.ptr1.set(step.ptr1);
+    this.ptr2.set(step.ptr2);
+    this.totalComparisons = step.totalComparisons;
+    this.totalInterchanges = step.totalInterchanges;
+    this.isSwapping.set(step.operation === 'swap');
+    console.log(step);
+  }
+}
+  prevStep() {
+    if (this.currentStepIndex() > 0) {
+      this.currentStepIndex.set(this.currentStepIndex() - 1);
+      const step = this.steps()[this.currentStepIndex()];
+      this.currentArray.set([...step.array]);
+      this.ptr1.set(step.ptr1);
+      this.ptr2.set(step.ptr2);
+      this.totalComparisons = step.totalComparisons;
+      this.totalInterchanges = step.totalInterchanges;
+      this.isSwapping.set(step.operation === 'swap');
+    }
+  }
+
+  stop_running = false; // A flag to control the loop
+  async autoRun() {
+    this.stop_running = true; // Reset the flag at the start
+    while (this.currentStepIndex() < this.steps().length && this.stop_running) {
+      this.nextStep();
+      
+      this.cdr.detectChanges();
+
+      // This line tells the loop to pause for 'speed' ms
+      await new Promise(resolve => setTimeout(resolve, this.speed));
+    }
+  }
+  stopAutoRun() {
+    this.stop_running = false; // Set the flag to false to stop the loop
+  }
 }

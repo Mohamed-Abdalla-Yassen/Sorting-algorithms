@@ -1,10 +1,12 @@
 package com.assignment1.sorting_algo.controller;
 
-import com.assignment1.sorting_algo.DTO.RequestDTO;
-import com.assignment1.sorting_algo.DTO.Step;
+import com.assignment1.sorting_algo.DTO.*;
 import com.assignment1.sorting_algo.service.*;
+import com.assignment1.sorting_algo.service_comparator.Bubble;
+import com.assignment1.sorting_algo.service_comparator.RunAllMethods;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -17,19 +19,25 @@ public class Controller {
     private final MergeSort merge_service;
     private final QuickSort quick_service;
     private final HeapSort heap_service;
+
+    private final RunAllMethods r_service;
     // Constructor injection
     public Controller(BubbleSort bubble_service,
                       SelectionSort selection_service,
                       InsertionSort insertion_service,
                       QuickSort quick_service,
                       HeapSort heap_service,
-                      MergeSort merge_service) {
+                      MergeSort merge_service,
+
+                      RunAllMethods r_service) {
         this.bubble_service = bubble_service;
         this.selection_service = selection_service;
         this.insertion_service = insertion_service;
         this.quick_service = quick_service;
         this.heap_service = heap_service;
         this.merge_service = merge_service;
+
+        this.r_service = r_service;
     }
 
     @PostMapping("/bubble_sort")
@@ -60,5 +68,11 @@ public class Controller {
     @PostMapping("/merge_sort")
     public List<Step> merge_sort(@RequestBody RequestDTO request) {
         return merge_service.sort(request);
+    }
+
+    // test
+    @PostMapping("/comparison/benchMark")
+    public List<BenchMarkDTO> test(@RequestBody RequestDTO request) throws IOException {
+        return r_service.runAll(request);
     }
 }
