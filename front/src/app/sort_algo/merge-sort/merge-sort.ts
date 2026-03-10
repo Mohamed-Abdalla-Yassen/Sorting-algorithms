@@ -1,4 +1,4 @@
-import { Component, inject , ChangeDetectorRef } from '@angular/core';
+import { Component, inject , ChangeDetectorRef, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { SortService } from '../../service/sort.service';
@@ -28,7 +28,8 @@ export class MergeSort {
   totalInterchanges = 0;
   request: requestBody = {
     size: 10,
-    order: 3
+    order: 4, // 1: sorted, 2: reverse sorted, 3: random, 4: file input
+    array: [] // Initialize the array for file input
   };
 
   // store the steps returned from backend 
@@ -99,5 +100,71 @@ export class MergeSort {
   }
   stopAutoRun() {
     this.stop_running = false; // Set the flag to false to stop the loop
+  }
+
+  onFileSelected(event: Event): void {
+    // get the input element and the selected file
+    const input = event.target as HTMLInputElement;
+    const file: File | null = input.files ? input.files[0] : null;
+
+    if (file) {
+      // ensure the file is actually a text file
+      if (file.type === 'text/plain') {
+        
+        // create a FileReader
+        const reader = new FileReader();
+
+        // define what happens when the reader finishes reading
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const fileContent = e.target?.result as string;
+          
+          if (fileContent) {
+            // convert the string content into an array of numbers
+            this.processFileContent(fileContent);
+          }
+        };
+
+        // define what happens on error
+        reader.onerror = (e) => {
+          console.error("Error reading file", e);
+        };
+
+        // tell the reader to read the file as text
+        reader.readAsText(file);
+
+      } else {
+        alert("Please select a valid .txt file.");
+      }
+    }
+  }
+
+  private processFileContent(content: string): void {
+    this.request.array = content
+      .split(',')                     
+      .map(item => item.trim())       
+      .filter(item => item !== '')    
+      .map(item => Number(item))      
+      .filter(item => !isNaN(item));  
+
+    console.log('Successfully converted to array:', this.request.array);
+  }
+  
+  maxAbsVal = computed(() => {
+    const arr = this.currentArray();
+    if (arr.length === 0) return 1; 
+    
+    const minVal = Math.min(...arr);
+    const maxVal = Math.max(...arr);
+    return Math.max(Math.abs(minVal), Math.abs(maxVal));
+  });
+
+  getBarHeight(value: number): number {
+    if (this.maxAbsVal() === 0) return 0;
+    return (Math.abs(value) / this.maxAbsVal()) * 50; 
+  }
+
+  getBarBottom(value: number): number {
+    const height = this.getBarHeight(value);
+    return value >= 0 ? 50 : 50 - height;
   }
 }

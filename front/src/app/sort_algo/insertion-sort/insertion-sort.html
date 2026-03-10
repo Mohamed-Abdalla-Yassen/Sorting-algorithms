@@ -16,12 +16,22 @@
           <option value="1">Sorted</option>
           <option value="2">Reverse Sorted</option>
           <option value="3">Random</option>
+          <option value="4">From File</option>
         </select>
       </div>
       <div class="input-group">
         <label>Speed (ms):</label>
         <input type="range" [(ngModel)]="speed" min="10" max="1000">
       </div>
+      @if (request.order == 4) {
+      <label for="txtUpload">Upload a Text File: </label>
+                <input 
+                    type="file" 
+                    id="txtUpload" 
+                    accept=".txt" 
+                    (change)="onFileSelected($event)" 
+                />
+              }
     </div>
 
     <div class="right-section">
@@ -43,7 +53,9 @@
       @for (value of currentArray(); track $index) {
         <div 
           class="bar" 
-          [style.height.%]="(value / maxVal) * 100"
+          [style.height.%]="getBarHeight(value)"
+          [style.bottom.%]="getBarBottom(value)"
+          
           [class.comparing]="$index === ptr1() || $index === ptr2()"
           [class.swapping]="isSwapping() && ($index === ptr1() || $index === ptr2())">
           <span class="bar-value" >{{ value }}</span>
@@ -57,3 +69,4 @@
     </div>
   </main>
 </div>
+<!-- [style.height.%]="(value / maxVal) * 100" -->
