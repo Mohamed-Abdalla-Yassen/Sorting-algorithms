@@ -11,8 +11,13 @@ import java.util.List;
 public class SelectionSort {
     public List<Step> sort(RequestDTO request) { // Return the list of steps
         Helper help = new Helper();
-        List<Integer> array = help.generator(request);
-
+//        List<Integer> array = help.generator(request);
+        List<Integer> array = new ArrayList<>();
+        if (request.getOrder() == 4) {
+            array = request.getArray();
+        } else {
+            array = help.generator(request);
+        }
         int stepNum = 0;
         int comparisons = 0;
         int interchanges = 0;

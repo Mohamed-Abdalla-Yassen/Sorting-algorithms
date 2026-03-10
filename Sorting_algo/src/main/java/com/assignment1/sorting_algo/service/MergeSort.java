@@ -16,7 +16,14 @@ public class MergeSort {
     private static List<Step> steps;
 
     public List<Step> sort(RequestDTO request) { // Return the list of steps
-        List<Integer> array = help.generator(request);
+//        List<Integer> array = help.generator(request);
+
+        List<Integer> array = new ArrayList<>();
+        if (request.getOrder() == 4) {
+            array = request.getArray();
+        } else {
+            array = help.generator(request);
+        }
         steps = new ArrayList<>();
         stepNum = 0;
         comparisons = 0;
